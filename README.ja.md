@@ -6,7 +6,7 @@
 
 **プライバシー重視のプログラミング言語と設定コンパイラ。**
 
-`kura` ツールチェーン全体が **NASM x86-64 アセンブリ** で書かれています（Windows PE + Linux ELF）。
+**Kyto** が言語、**kura** がそのコンパイラ CLI です。**NASM x86-64 アセンブリ** で実装（Windows PE + Linux ELF）。
 
 <br />
 
@@ -28,6 +28,7 @@
 [![License](https://img.shields.io/badge/license-MIT-blue?style=for-the-badge)](https://github.com/voidmute/kyto/blob/main/LICENSE)
 [![Release](https://img.shields.io/github/v/release/voidmute/kyto?style=for-the-badge&logo=github&label=release)](https://github.com/voidmute/kyto/releases/latest)
 [![Downloads](https://img.shields.io/github/downloads/voidmute/kyto/total?style=for-the-badge&color=2481D7&label=downloads)](https://github.com/voidmute/kyto/releases)
+[![Package](https://img.shields.io/badge/container-ghcr.io-2496ED?style=for-the-badge&logo=docker&logoColor=white)](https://github.com/voidmute/kyto/pkgs/container/kyto)
 [![NASM](https://img.shields.io/badge/toolchain-NASM%20x86--64-111111?style=for-the-badge)](https://github.com/voidmute/kyto/blob/main/spec/asm-roadmap.md)
 
 <br />
@@ -46,7 +47,7 @@ git clone https://github.com/voidmute/kyto.git && cd kyto
 kura compile
 ```
 
-ビルド済みバイナリは **[GitHub Releases](https://github.com/voidmute/kyto/releases/latest)** から入手できます。
+**Kyto** リリース（**kura** コンパイラ同梱）：**[GitHub Releases](https://github.com/voidmute/kyto/releases/latest)** · Docker パッケージ：[ghcr.io/voidmute/kyto](https://github.com/voidmute/kyto/pkgs/container/kyto)。
 
 ## `.kyto.config`
 

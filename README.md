@@ -6,7 +6,7 @@
 
 **A privacy-first programming language and config compiler.**
 
-The entire `kura` toolchain is written in **NASM x86-64 Assembly** (Windows PE + Linux ELF).
+**Kyto** is the language. **kura** is its compiler CLI (`kura compile`, `kura check`, …). The compiler is written in **NASM x86-64 Assembly** (Windows PE + Linux ELF).
 
 <br />
 
@@ -28,6 +28,7 @@ The entire `kura` toolchain is written in **NASM x86-64 Assembly** (Windows PE +
 [![License](https://img.shields.io/badge/license-MIT-blue?style=for-the-badge)](https://github.com/voidmute/kyto/blob/main/LICENSE)
 [![Release](https://img.shields.io/github/v/release/voidmute/kyto?style=for-the-badge&logo=github&label=release)](https://github.com/voidmute/kyto/releases/latest)
 [![Downloads](https://img.shields.io/github/downloads/voidmute/kyto/total?style=for-the-badge&color=2481D7&label=downloads)](https://github.com/voidmute/kyto/releases)
+[![Package](https://img.shields.io/badge/container-ghcr.io-2496ED?style=for-the-badge&logo=docker&logoColor=white)](https://github.com/voidmute/kyto/pkgs/container/kyto)
 [![NASM](https://img.shields.io/badge/toolchain-NASM%20x86--64-111111?style=for-the-badge)](https://github.com/voidmute/kyto/blob/main/spec/asm-roadmap.md)
 
 <br />
@@ -39,7 +40,7 @@ The entire `kura` toolchain is written in **NASM x86-64 Assembly** (Windows PE +
 
 <br />
 
-[**Get Started**](#quick-start) · [**Releases**](#releases) · [**Configuration**](docs/configuration.md) · [**Examples**](examples/minimal) · [**Grammar**](spec/grammar.md) · [**Roadmap**](spec/asm-roadmap.md)
+[**Get Started**](#quick-start) · [**Releases**](#releases) · [**Packages**](#packages) · [**Configuration**](docs/configuration.md) · [**Examples**](examples/minimal) · [**Grammar**](spec/grammar.md) · [**Roadmap**](spec/asm-roadmap.md)
 
 </div>
 
@@ -50,6 +51,7 @@ The entire `kura` toolchain is written in **NASM x86-64 Assembly** (Windows PE +
 - [Why Kyto](#why-kyto)
 - [Quick Start](#quick-start)
 - [Releases](#releases)
+- [Packages](#packages)
 - [`.kyto.config`](#kytoconfig)
 - [`kyto.toml`](#kytotoml)
 - [Kura CLI](#kura-cli)
@@ -112,32 +114,47 @@ kura compile
 
 ## Releases
 
-Pre-built `kura` binaries are published on **[GitHub Releases](https://github.com/voidmute/kyto/releases/latest)**.
+**Kyto** releases ship the **kura** compiler. Download archives from **[GitHub Releases](https://github.com/voidmute/kyto/releases/latest)**.
 
-| Platform | Asset |
-|:---------|:------|
-| Windows x86-64 | `kura-asm-windows-x86_64.zip` |
-| Linux x86-64 | `kura-asm-linux-x86_64.zip` |
+| Platform | Archive | Binary inside |
+|:---------|:--------|:--------------|
+| Windows x86-64 | `kyto-*-windows-x86_64.zip` | `kura.exe` |
+| Linux x86-64 | `kyto-*-linux-x86_64.zip` | `kura` |
 
 ### Windows (from release)
 
 ```powershell
-# Download and extract kura-asm-windows-x86_64.zip, then:
-.\kura-asm.exe install
+# Extract kyto-*-windows-x86_64.zip, then:
+.\kura.exe install
 kura --version
 ```
 
 ### Linux (from release)
 
 ```bash
-# Download and extract kura-asm-linux-x86_64.zip, then:
-chmod +x kura-asm
-./kura-asm install
+# Extract kyto-*-linux-x86_64.zip, then:
+chmod +x kura
+./kura install
 export PATH="$HOME/.local/bin:$PATH"
 kura --version
 ```
 
-New versions are tagged as `v*` (for example `v0.5.0-asm`). CI builds from source on every push to `main`.
+Tags follow `v*` (for example `v0.5.1-asm`).
+
+---
+
+## Packages
+
+Linux builds are also published as a **GitHub Container** package (shows under the repo **Packages** tab):
+
+**[ghcr.io/voidmute/kyto](https://github.com/voidmute/kyto/pkgs/container/kyto)**
+
+```bash
+docker pull ghcr.io/voidmute/kyto:latest
+docker run --rm -v "$PWD:/work" -w /work ghcr.io/voidmute/kyto:latest compile
+```
+
+The image contains the `kura` compiler; mount your Kyto project at `/work`.
 
 ---
 
@@ -192,7 +209,9 @@ script = "generated/deploy-env.sh"
 
 ---
 
-## Kura CLI
+## Kura — the Kyto compiler
+
+`kura` is the command-line compiler for Kyto projects:
 
 | Command | Description |
 |:--------|:------------|

@@ -6,7 +6,7 @@
 
 **注重隐私的编程语言与配置编译器。**
 
-整个 `kura` 工具链使用 **NASM x86-64 汇编** 编写（Windows PE + Linux ELF）。
+**Kyto** 是语言，**kura** 是其编译器 CLI。使用 **NASM x86-64 汇编** 编写（Windows PE + Linux ELF）。
 
 <br />
 
@@ -28,6 +28,7 @@
 [![License](https://img.shields.io/badge/license-MIT-blue?style=for-the-badge)](https://github.com/voidmute/kyto/blob/main/LICENSE)
 [![Release](https://img.shields.io/github/v/release/voidmute/kyto?style=for-the-badge&logo=github&label=release)](https://github.com/voidmute/kyto/releases/latest)
 [![Downloads](https://img.shields.io/github/downloads/voidmute/kyto/total?style=for-the-badge&color=2481D7&label=downloads)](https://github.com/voidmute/kyto/releases)
+[![Package](https://img.shields.io/badge/container-ghcr.io-2496ED?style=for-the-badge&logo=docker&logoColor=white)](https://github.com/voidmute/kyto/pkgs/container/kyto)
 [![NASM](https://img.shields.io/badge/toolchain-NASM%20x86--64-111111?style=for-the-badge)](https://github.com/voidmute/kyto/blob/main/spec/asm-roadmap.md)
 
 <br />
@@ -48,7 +49,7 @@ kura compile
 
 Windows：`.\asm\build.ps1`
 
-预编译二进制文件见 **[GitHub Releases](https://github.com/voidmute/kyto/releases/latest)**。
+**Kyto** 发布包（含 **kura** 编译器）：**[GitHub Releases](https://github.com/voidmute/kyto/releases/latest)** · Docker 包：[ghcr.io/voidmute/kyto](https://github.com/voidmute/kyto/pkgs/container/kyto)。
 
 ## `.kyto.config`
 

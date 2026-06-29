@@ -21,7 +21,7 @@ test-*.txt
 stdout
 
 # Local / debug scratch
-.firecrawl/
+package/kura-asm
 .kyto.config
 .env.example
 generated/

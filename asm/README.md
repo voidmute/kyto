@@ -1,11 +1,12 @@
-# Kyto kura (ASM)
+# kura — Kyto compiler (ASM)
 
-x86-64 **NASM** implementation of `kura` — Windows PE and Linux ELF.
+**kura** is the command-line compiler for the **Kyto** language. Implementation: x86-64 **NASM** (Windows PE + Linux ELF).
 
 [![CI](https://img.shields.io/github/actions/workflow/status/voidmute/kyto/ci.yml?branch=main&style=flat-square&label=CI)](https://github.com/voidmute/kyto/actions/workflows/ci.yml)
-[![Release](https://img.shields.io/github/v/release/voidmute/kyto?style=flat-square&label=release)](https://github.com/voidmute/kyto/releases/latest)
+[![Release](https://img.shields.io/github/v/release/voidmute/kyto?style=flat-square&label=Kyto)](https://github.com/voidmute/kyto/releases/latest)
+[![Package](https://img.shields.io/badge/ghcr.io-kyto-2496ED?style=flat-square&logo=docker&logoColor=white)](https://github.com/voidmute/kyto/pkgs/container/kyto)
 
-Main docs: [README.md](../README.md) · Releases: [github.com/voidmute/kyto/releases](https://github.com/voidmute/kyto/releases/latest)
+Main docs: [README.md](../README.md) · Releases: [Kyto releases](https://github.com/voidmute/kyto/releases/latest) · Package: [ghcr.io/voidmute/kyto](https://github.com/voidmute/kyto/pkgs/container/kyto)
 
 ## Requirements
 

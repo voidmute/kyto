@@ -6,7 +6,7 @@
 
 **Мова програмування та компілятор конфігурації з акцентом на приватність.**
 
-Весь toolchain `kura` написаний на **NASM x86-64 Assembly** (Windows PE + Linux ELF).
+**Kyto** — мова. **kura** — її компілятор CLI. Написаний на **NASM x86-64 Assembly** (Windows PE + Linux ELF).
 
 <br />
 
@@ -28,6 +28,7 @@
 [![License](https://img.shields.io/badge/license-MIT-blue?style=for-the-badge)](https://github.com/voidmute/kyto/blob/main/LICENSE)
 [![Release](https://img.shields.io/github/v/release/voidmute/kyto?style=for-the-badge&logo=github&label=release)](https://github.com/voidmute/kyto/releases/latest)
 [![Downloads](https://img.shields.io/github/downloads/voidmute/kyto/total?style=for-the-badge&color=2481D7&label=downloads)](https://github.com/voidmute/kyto/releases)
+[![Package](https://img.shields.io/badge/container-ghcr.io-2496ED?style=for-the-badge&logo=docker&logoColor=white)](https://github.com/voidmute/kyto/pkgs/container/kyto)
 [![NASM](https://img.shields.io/badge/toolchain-NASM%20x86--64-111111?style=for-the-badge)](https://github.com/voidmute/kyto/blob/main/spec/asm-roadmap.md)
 
 <br />
@@ -48,7 +49,7 @@ kura compile
 
 Windows: `.\asm\build.ps1`
 
-Готові бінарники: **[GitHub Releases](https://github.com/voidmute/kyto/releases/latest)**.
+Релізи **Kyto** (компілятор **kura**): **[GitHub Releases](https://github.com/voidmute/kyto/releases/latest)** · Docker-пакет: [ghcr.io/voidmute/kyto](https://github.com/voidmute/kyto/pkgs/container/kyto).
 
 ## `.kyto.config`
 
