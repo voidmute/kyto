@@ -60,6 +60,7 @@ peek_val:
     ret
 
 ; Copy token string at index ecx into rdx buffer
+global peek_val_at
 peek_val_at:
     push    rsi
     push    rdi

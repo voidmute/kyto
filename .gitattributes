@@ -1,2 +1,5 @@
 *.asm linguist-language=Assembly
 *.inc linguist-language=Assembly
+README.*.md linguist-detectable=true
+docs/** linguist-documentation
+spec/** linguist-documentation

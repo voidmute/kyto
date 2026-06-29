@@ -21,6 +21,7 @@ test-*.txt
 stdout
 
 # Local / debug scratch
+.firecrawl/
 .kyto.config
 .env.example
 generated/

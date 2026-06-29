@@ -14,7 +14,7 @@ jobs:
       - name: Install NASM
         run: sudo apt-get update && sudo apt-get install -y nasm
       - name: Build kura-asm
-        run: ./asm/build.sh
+        run: bash asm/build.sh
       - name: Smoke test
         run: |
           ./bin/kura-asm --version

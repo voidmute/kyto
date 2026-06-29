@@ -79,7 +79,6 @@ section .text
 extern parse_pos
 extern peek_type
 extern peek_val
-extern peek_val_at
 extern bump
 extern expect_type
 extern tok_count

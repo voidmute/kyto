@@ -1,54 +1,89 @@
-<p align="center">
-  <img src="icons/kyto.png" alt="Kyto" width="96" />
-</p>
+<div align="center">
 
-<h1 align="center">Kyto</h1>
+<img src="icons/kyto.png" alt="Kyto logo" width="128" />
 
-<p align="center">
-  <strong>Privacy-first programming language for any project.</strong><br />
-  Compile <code>.kyto</code> sources with <code>kura</code> - the Kyto toolchain, written in x86-64 Assembly.
-</p>
+# Kyto
 
-<p align="center">
-  <a href="https://github.com/voidmute/kyto/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/voidmute/kyto/ci.yml?branch=main&style=flat-square" alt="CI" /></a>
-  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue?style=flat-square" alt="License" /></a>
-  <img src="https://img.shields.io/badge/kura-NASM%20x86--64-111?style=flat-square" alt="kura asm" />
-</p>
+**A privacy-first programming language and config compiler.**
 
-<p align="center">
-  <a href="#quick-start">Quick start</a> -
-  <a href="#kyto-config">.kyto.config</a> -
-  <a href="#kyto-toml">kyto.toml</a> -
-  <a href="#kura-cli">Kura CLI</a> -
-  <a href="docs/configuration.md">Configuration</a> -
-  <a href="spec/grammar.md">Language</a>
-</p>
+The entire `kura` toolchain is written in **NASM x86-64 Assembly** (Windows PE + Linux ELF).
+
+<br />
+
+### Languages
+
+[![English](https://img.shields.io/badge/lang-English-red?style=for-the-badge)](README.md)
+[![Русский](https://img.shields.io/badge/lang-Русский-blue?style=for-the-badge)](README.ru.md)
+[![Español](https://img.shields.io/badge/lang-Español-yellow?style=for-the-badge)](README.es.md)
+[![Français](https://img.shields.io/badge/lang-Français-blue?style=for-the-badge)](README.fr.md)
+[![Deutsch](https://img.shields.io/badge/lang-Deutsch-black?style=for-the-badge)](README.de.md)
+[![中文](https://img.shields.io/badge/lang-中文-orange?style=for-the-badge)](README.zh-CN.md)
+[![日本語](https://img.shields.io/badge/lang-日本語-purple?style=for-the-badge)](README.ja.md)
+[![Português](https://img.shields.io/badge/lang-Português-green?style=for-the-badge)](README.pt-BR.md)
+[![Українська](https://img.shields.io/badge/lang-Українська-lightblue?style=for-the-badge)](README.uk.md)
+
+<br />
+
+[![CI](https://img.shields.io/github/actions/workflow/status/voidmute/kyto/ci.yml?branch=main&style=for-the-badge&logo=githubactions&logoColor=white)](https://github.com/voidmute/kyto/actions/workflows/ci.yml)
+[![License](https://img.shields.io/badge/license-MIT-blue?style=for-the-badge)](LICENSE)
+[![Assembly](https://img.shields.io/badge/toolchain-NASM%20x86--64-111?style=for-the-badge&logo=assemblyscript&logoColor=white)](spec/asm-roadmap.md)
+[![Version](https://img.shields.io/badge/kura-0.5.0--asm-informational?style=for-the-badge)](https://github.com/voidmute/kyto/releases)
+
+<br />
+
+[![Windows](https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white)](#quick-start)
+[![Linux](https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)](#quick-start)
+[![Privacy](https://img.shields.io/badge/privacy-local--only-success?style=for-the-badge)](#privacy)
+[![Encrypt](https://img.shields.io/badge/crypto-ChaCha20--Poly1305-critical?style=for-the-badge)](#privacy)
+
+<br />
+
+[**Get Started**](#quick-start) · [**Configuration**](docs/configuration.md) · [**Examples**](examples/minimal) · [**Grammar**](spec/grammar.md) · [**Roadmap**](spec/asm-roadmap.md)
+
+</div>
+
+---
+
+## Table of Contents
+
+- [Why Kyto](#why-kyto)
+- [Quick Start](#quick-start)
+- [`.kyto.config`](#kytoconfig)
+- [`kyto.toml`](#kytotoml)
+- [Kura CLI](#kura-cli)
+- [Language Snapshot](#language-snapshot)
+- [Examples](#examples)
+- [Privacy](#privacy)
+- [Contributing](#contributing)
 
 ---
 
 ## Why Kyto
 
 | Problem | Kyto approach |
-|---------|---------------|
+|:--------|:--------------|
 | Users copied across SQL, TS, and shell | One compile step emits all artifacts |
 | Secrets in git | Layered config + optional encryption |
 | Heavy DSLs | Simple `.kyto.config` for everyday edits |
-| Vendor lock-in to one stack | `kyto.toml` configures every output path |
+| Vendor lock-in | `kyto.toml` configures every output path |
 
-Kyto is **local-only**: no network, no telemetry, no cloud dependency. The entire `kura` compiler is **NASM x86-64 Assembly** (Windows PE + Linux ELF).
+Kyto is **local-only**: no network, no telemetry, no cloud dependency.
 
-## Quick start
+---
 
-**Windows**
+## Quick Start
+
+### Windows
 
 ```powershell
 git clone https://github.com/voidmute/kyto.git
 cd kyto
 .\asm\build.ps1
 .\bin\kura-asm.exe install
+kura --version
 ```
 
-**Ubuntu / Linux**
+### Linux
 
 ```bash
 git clone https://github.com/voidmute/kyto.git
@@ -57,19 +92,23 @@ sudo apt install nasm    # if needed
 ./asm/build.sh
 ./bin/kura-asm install
 export PATH="$HOME/.local/bin:$PATH"
+kura --version
 ```
 
-Scaffold a new project:
+### New project
 
 ```bash
 mkdir my-app && cd my-app
 kura init --name my-app
 cp .kyto.config.example .kyto.config
-# config-only: set config_only = true in kyto.toml
 kura compile
 ```
 
-## .kyto.config
+> Set `config_only = true` in `kyto.toml` to skip `.kyto` sources and compile from config only.
+
+---
+
+## `.kyto.config`
 
 Human-friendly config for domain, users, and **any env key**. Comments use `+`.
 
@@ -82,17 +121,20 @@ DATABASE_URL postgresql://localhost/app
 REPO_DIR /var/www/app
 ```
 
-- Names are case-insensitive (`BOB` becomes `bob`)
-- `ADMIN` must be listed in `USERS`
-- Any other `KEY value` line becomes an env variable
-- Set `config_only = true` in `kyto.toml` to skip `.kyto` sources
-- Run `kura compile` after every change
+| Rule | Behavior |
+|:-----|:---------|
+| `DOMAIN` | Sets `APP_URL=https://host` |
+| `USERS` / `ADMIN` | Login names (lowercased) |
+| Other `KEY value` | Becomes an env variable |
+| `REPO_*` | Deploy map entries |
 
-See [spec/kyto-lite.md](spec/kyto-lite.md) for the v2 config-first workflow.
+See [spec/kyto-lite.md](spec/kyto-lite.md) for the config-first workflow.
 
-## kyto.toml
+---
 
-Project manifest - customize every emit target for **your** stack:
+## `kyto.toml`
+
+Project manifest — customize every emit target:
 
 ```toml
 [project]
@@ -105,45 +147,32 @@ file = ".kyto.config"
 [emit.env]
 file = ".env"
 example = ".env.example"
-redact_keys = ["SECRET", "TOKEN", "PASSWORD"]
 
 [emit.users]
-sql = "db/seed-users.sql"
-sql_table = "users"
-typescript = "src/config/users.ts"
-typescript_export = "AUTHORIZED_USERS"
+sql = "generated/users.sql"
+typescript = "generated/users.ts"
 json = "generated/users.json"
 
 [emit.deploy]
-script = "scripts/generated/deploy-env.sh"
-
-[emit.deploy.apply_roles]
-enabled = true
-command = "docker compose exec -T postgres psql -U app -d app"
-admin_role = "ADMIN"
-user_role = "USER"
+script = "generated/deploy-env.sh"
 ```
 
-Disable any emit block with `enabled = false`.
+---
 
 ## Kura CLI
 
 | Command | Description |
-|---------|-------------|
-| `kura init` | Create `kyto.toml`, `.kyto.config.example`, `kyto/main.kyto` |
-| `kura compile` | Compile entry file and write artifacts |
+|:--------|:------------|
+| `kura init` | Scaffold `kyto.toml`, `.kyto.config.example`, `kyto/main.kyto` |
+| `kura compile` | Compile and write artifacts |
 | `kura check` | Parse and evaluate without writing files |
-| `kura install` | Copy `kura` to `~/.local/bin` and update PATH |
-| `kura encrypt` | Encrypt a secrets `.kyto` file |
+| `kura install` | Install to `~/.local/bin` |
+| `kura encrypt` | Encrypt a secrets file |
 | `kura decrypt` | Decrypt an encrypted file |
 
-Entry resolution order:
+---
 
-1. `--entry` flag
-2. `[project].entry` in `kyto.toml`
-3. `kyto/main.kyto`
-
-## Language snapshot
+## Language Snapshot
 
 ```kyto
 import local from "./local.kyto"
@@ -160,38 +189,29 @@ emit users(users)
 emit deploy(deploy)
 ```
 
-Comments in `.kyto` files: `+` at the beginning of a line.
-
 Full reference: [spec/grammar.md](spec/grammar.md)
+
+---
 
 ## Examples
 
 | Example | Path | Description |
-|---------|------|-------------|
+|:--------|:-----|:------------|
 | Minimal | [examples/minimal](examples/minimal) | Smallest working project |
 
 ```bash
-cd examples/minimal
-kura compile
+cd examples/minimal && kura compile
 ```
+
+---
 
 ## Privacy
 
-- `portal.local.kyto` style secrets stay gitignored
+- Secrets files stay gitignored
 - `kura encrypt` uses ChaCha20-Poly1305 (RFC 8439)
-- Key from `KYTO_KEY` env or `~/.config/kyto/key`
+- Key from `KYTO_KEY` or `~/.config/kyto/key`
 
-## Install scripts
-
-```powershell
-# Windows
-.\scripts\install-kura.ps1
-```
-
-```bash
-# Linux
-./scripts/install-kura.sh
-```
+---
 
 ## Contributing
 
@@ -199,4 +219,4 @@ Issues and pull requests welcome. See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## License
 
-[MIT](LICENSE) - voidmute
+[MIT](LICENSE) © [voidmute](https://github.com/voidmute)
