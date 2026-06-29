@@ -1,27 +1,21 @@
 #!/usr/bin/env bash
-# Install kura on PATH (Linux/macOS). Run from repo root:
+# Install kura on PATH (Linux). Run from repo root:
 #   ./scripts/install-kura.sh
 set -euo pipefail
 
 REPO="$(cd "$(dirname "$0")/.." && pwd)"
 BIN_DIR="${HOME}/.local/bin"
 TARGET="$BIN_DIR/kura"
+SOURCE="$REPO/bin/kura-asm"
 
-SOURCE=""
-for candidate in \
-  "$REPO/target/release/kura" \
-  "$REPO/bin/kura"
-do
-  if [ -f "$candidate" ]; then
-    SOURCE="$candidate"
-    break
-  fi
-done
+if [ ! -f "$SOURCE" ]; then
+  echo "Building kura (NASM)..."
+  "$REPO/asm/build.sh"
+fi
 
-if [ -z "$SOURCE" ]; then
-  echo "Building kura..."
-  cargo build --release --manifest-path "$REPO/Cargo.toml"
-  SOURCE="$REPO/target/release/kura"
+if [ ! -f "$SOURCE" ]; then
+  echo "Build failed: $SOURCE not found" >&2
+  exit 1
 fi
 
 mkdir -p "$BIN_DIR"

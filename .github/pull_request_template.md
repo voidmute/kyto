@@ -6,5 +6,5 @@
 
 ## Test plan
 
-- [ ] `cargo test`
-- [ ] `kura compile` in an example project
+- [ ] `./asm/build.sh` or `.\asm\build.ps1`
+- [ ] `kura compile` / `kura check` in `examples/minimal`

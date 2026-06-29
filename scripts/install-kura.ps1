@@ -6,19 +6,13 @@ $RepoRoot = Resolve-Path (Join-Path $PSScriptRoot "..")
 $BinDir = Join-Path $env:USERPROFILE ".local\bin"
 $Target = Join-Path $BinDir "kura.exe"
 
-$Candidates = @(
-    (Join-Path $RepoRoot "target\release\kura.exe"),
-    (Join-Path $RepoRoot "bin\kura.exe")
-)
+$Source = Join-Path $RepoRoot "bin\kura-asm.exe"
 
-$Source = $Candidates | Where-Object { Test-Path $_ } | Select-Object -First 1
-
-if (-not $Source) {
-    Write-Host "Building kura..."
+if (-not (Test-Path $Source)) {
+    Write-Host "Building kura (NASM)..."
     Push-Location $RepoRoot
-    cargo build --release
+    & (Join-Path $RepoRoot "asm\build.ps1")
     Pop-Location
-    $Source = Join-Path $RepoRoot "target\release\kura.exe"
     if (-not (Test-Path $Source)) {
         throw "Build failed: $Source not found"
     }

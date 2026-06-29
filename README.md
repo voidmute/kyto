@@ -5,15 +5,14 @@
 <h1 align="center">Kyto</h1>
 
 <p align="center">
-  <strong>Privacy-first config language for any project.</strong><br />
-  Compile <code>.kyto</code> sources with <code>kura</code> - the Kyto toolchain.
+  <strong>Privacy-first programming language for any project.</strong><br />
+  Compile <code>.kyto</code> sources with <code>kura</code> - the Kyto toolchain, written in x86-64 Assembly.
 </p>
 
 <p align="center">
   <a href="https://github.com/voidmute/kyto/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/voidmute/kyto/ci.yml?branch=main&style=flat-square" alt="CI" /></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue?style=flat-square" alt="License" /></a>
-  <a href="https://www.rust-lang.org"><img src="https://img.shields.io/badge/kura-asm-x64-111?style=flat-square" alt="kura asm" /></a>
-  <a href="https://www.rust-lang.org"><img src="https://img.shields.io/badge/rust-legacy-orange?style=flat-square" alt="Rust legacy" /></a>
+  <img src="https://img.shields.io/badge/kura-NASM%20x86--64-111?style=flat-square" alt="kura asm" />
 </p>
 
 <p align="center">
@@ -36,11 +35,11 @@
 | Heavy DSLs | Simple `.kyto.config` for everyday edits |
 | Vendor lock-in to one stack | `kyto.toml` configures every output path |
 
-Kyto is **local-only**: no network, no telemetry, no cloud dependency.
+Kyto is **local-only**: no network, no telemetry, no cloud dependency. The entire `kura` compiler is **NASM x86-64 Assembly** (Windows PE + Linux ELF).
 
 ## Quick start
 
-**Windows (ASM kura, recommended)**
+**Windows**
 
 ```powershell
 git clone https://github.com/voidmute/kyto.git
@@ -49,7 +48,7 @@ cd kyto
 .\bin\kura-asm.exe install
 ```
 
-**Ubuntu / Linux (ASM kura, recommended)**
+**Ubuntu / Linux**
 
 ```bash
 git clone https://github.com/voidmute/kyto.git
@@ -59,15 +58,6 @@ sudo apt install nasm    # if needed
 ./bin/kura-asm install
 export PATH="$HOME/.local/bin:$PATH"
 ```
-
-**Rust kura (legacy fallback during ASM port)**
-
-```bash
-cargo build --release
-./target/release/kura install
-```
-
-See [spec/asm-roadmap.md](spec/asm-roadmap.md) for the path to a **100% Assembly** Kyto implementation (full `.kyto` language, encrypt/decrypt, no Rust).
 
 Scaffold a new project:
 
@@ -188,7 +178,7 @@ kura compile
 ## Privacy
 
 - `portal.local.kyto` style secrets stay gitignored
-- `kura encrypt` uses XChaCha20-Poly1305
+- `kura encrypt` uses ChaCha20-Poly1305 (RFC 8439)
 - Key from `KYTO_KEY` env or `~/.config/kyto/key`
 
 ## Install scripts
@@ -199,7 +189,7 @@ kura compile
 ```
 
 ```bash
-# Linux / macOS
+# Linux
 ./scripts/install-kura.sh
 ```
 

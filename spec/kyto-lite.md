@@ -59,5 +59,6 @@ emit deploy(deploy)
 
 ## Toolchain
 
-- **kura-asm** - x86-64 Assembly compiler (Windows, config-first)
-- **kura** (legacy Rust) - fallback until ASM ports to Linux
+- **kura** — x86-64 NASM compiler (Windows PE + Linux ELF)
+- Build: `./asm/build.sh` or `.\asm\build.ps1`
+- Install: `kura install` copies to `~/.local/bin`

@@ -1,6 +1,6 @@
 # Kyto 100% Assembly — implementation plan
 
-Goal: every `kura` command and the full `.kyto` language in NASM x86-64, no Rust at runtime.
+Goal: every `kura` command and the full `.kyto` language in NASM x86-64.
 
 ## Done (v0.5 ASM)
 
@@ -16,14 +16,15 @@ Goal: every `kura` command and the full `.kyto` language in NASM x86-64, no Rust
 | `build_env` / `random_base64` / `emit env` | ASM — minimal example (`config_only = false`) |
 | `encrypt` / `decrypt` | ASM — ChaCha20-Poly1305, `KYTO` magic + nonce + tag |
 | Linux crypto | ASM — `KYTO_KEY` / `~/.config/kyto/key`, `write_binary_file` |
-| CI | ASM-only smoke (no Rust `cargo test` gate) |
+| CI | ASM-only smoke |
+| Rust removed | Repo is Assembly-only |
 
 ## Remaining polish
 
 ### M5 — Finish CLI
 - `kura init --name` (argv parsing)
 - `kura compile --entry path`
-- Archive Rust `crates/` from default docs once cross-platform smoke is green
+- `emit env(build_env(...))` full merge (random `SESSION_SECRET`)
 
 ## Architecture
 
@@ -57,4 +58,4 @@ $env:KYTO_KEY = "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcde
 ..\..\bin\kura-asm.exe decrypt cipher.bin -o plain-out.txt
 ```
 
-Rust `crates/kyto-core` remains as reference only; runtime is 100% NASM on Windows and Linux.
+The repository contains **only NASM Assembly** for the Kyto toolchain. Older Rust sources were removed; history remains in git.
