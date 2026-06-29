@@ -40,7 +40,7 @@
 
 <br />
 
-[**Get Started**](#quick-start) · [**Releases**](#releases) · [**Packages**](#packages) · [**Configuration**](docs/configuration.md) · [**Examples**](examples/minimal) · [**Grammar**](spec/grammar.md) · [**Roadmap**](spec/asm-roadmap.md)
+[**Get Started**](#quick-start) · [**Wiki**](https://github.com/voidmute/kyto/wiki) · [**Releases**](#releases) · [**Packages**](#packages) · [**Configuration**](docs/configuration.md) · [**Examples**](examples/minimal) · [**Grammar**](spec/grammar.md) · [**Roadmap**](spec/asm-roadmap.md)
 
 </div>
 
