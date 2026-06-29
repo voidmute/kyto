@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="icons/kyto.png" alt="Kyto logo" width="128" />
+<img src="https://raw.githubusercontent.com/voidmute/kyto/main/icons/kyto.png" alt="Kyto logo" width="128" />
 
 # Kyto
 
@@ -12,33 +12,34 @@ The entire `kura` toolchain is written in **NASM x86-64 Assembly** (Windows PE +
 
 ### Languages
 
-[![English](https://img.shields.io/badge/lang-English-red?style=for-the-badge)](README.md)
-[![Русский](https://img.shields.io/badge/lang-Русский-blue?style=for-the-badge)](README.ru.md)
-[![Español](https://img.shields.io/badge/lang-Español-yellow?style=for-the-badge)](README.es.md)
-[![Français](https://img.shields.io/badge/lang-Français-blue?style=for-the-badge)](README.fr.md)
-[![Deutsch](https://img.shields.io/badge/lang-Deutsch-black?style=for-the-badge)](README.de.md)
-[![中文](https://img.shields.io/badge/lang-中文-orange?style=for-the-badge)](README.zh-CN.md)
-[![日本語](https://img.shields.io/badge/lang-日本語-purple?style=for-the-badge)](README.ja.md)
-[![Português](https://img.shields.io/badge/lang-Português-green?style=for-the-badge)](README.pt-BR.md)
-[![Українська](https://img.shields.io/badge/lang-Українська-lightblue?style=for-the-badge)](README.uk.md)
+[![English](https://img.shields.io/badge/lang-English-red?style=for-the-badge)](https://github.com/voidmute/kyto/blob/main/README.md)
+[![Русский](https://img.shields.io/badge/lang-Русский-blue?style=for-the-badge)](https://github.com/voidmute/kyto/blob/main/README.ru.md)
+[![Español](https://img.shields.io/badge/lang-Español-yellow?style=for-the-badge)](https://github.com/voidmute/kyto/blob/main/README.es.md)
+[![Français](https://img.shields.io/badge/lang-Français-blue?style=for-the-badge)](https://github.com/voidmute/kyto/blob/main/README.fr.md)
+[![Deutsch](https://img.shields.io/badge/lang-Deutsch-black?style=for-the-badge)](https://github.com/voidmute/kyto/blob/main/README.de.md)
+[![中文](https://img.shields.io/badge/lang-中文-orange?style=for-the-badge)](https://github.com/voidmute/kyto/blob/main/README.zh-CN.md)
+[![日本語](https://img.shields.io/badge/lang-日本語-9B59B6?style=for-the-badge)](https://github.com/voidmute/kyto/blob/main/README.ja.md)
+[![Português](https://img.shields.io/badge/lang-Português-green?style=for-the-badge)](https://github.com/voidmute/kyto/blob/main/README.pt-BR.md)
+[![Українська](https://img.shields.io/badge/lang-Українська-55ACEE?style=for-the-badge)](https://github.com/voidmute/kyto/blob/main/README.uk.md)
 
 <br />
 
-[![CI](https://img.shields.io/github/actions/workflow/status/voidmute/kyto/ci.yml?branch=main&style=for-the-badge&logo=githubactions&logoColor=white)](https://github.com/voidmute/kyto/actions/workflows/ci.yml)
-[![License](https://img.shields.io/badge/license-MIT-blue?style=for-the-badge)](LICENSE)
-[![Assembly](https://img.shields.io/badge/toolchain-NASM%20x86--64-111?style=for-the-badge&logo=assemblyscript&logoColor=white)](spec/asm-roadmap.md)
-[![Version](https://img.shields.io/badge/kura-0.5.0--asm-informational?style=for-the-badge)](https://github.com/voidmute/kyto/releases)
+[![CI](https://img.shields.io/github/actions/workflow/status/voidmute/kyto/ci.yml?branch=main&style=for-the-badge&logo=githubactions&logoColor=white&label=CI)](https://github.com/voidmute/kyto/actions/workflows/ci.yml)
+[![License](https://img.shields.io/badge/license-MIT-blue?style=for-the-badge)](https://github.com/voidmute/kyto/blob/main/LICENSE)
+[![Release](https://img.shields.io/github/v/release/voidmute/kyto?style=for-the-badge&logo=github&label=release)](https://github.com/voidmute/kyto/releases/latest)
+[![Downloads](https://img.shields.io/github/downloads/voidmute/kyto/total?style=for-the-badge&color=2481D7&label=downloads)](https://github.com/voidmute/kyto/releases)
+[![NASM](https://img.shields.io/badge/toolchain-NASM%20x86--64-111111?style=for-the-badge)](https://github.com/voidmute/kyto/blob/main/spec/asm-roadmap.md)
 
 <br />
 
-[![Windows](https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white)](#quick-start)
-[![Linux](https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)](#quick-start)
+[![Windows](https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white)](https://github.com/voidmute/kyto/releases/latest)
+[![Linux](https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)](https://github.com/voidmute/kyto/releases/latest)
 [![Privacy](https://img.shields.io/badge/privacy-local--only-success?style=for-the-badge)](#privacy)
 [![Encrypt](https://img.shields.io/badge/crypto-ChaCha20--Poly1305-critical?style=for-the-badge)](#privacy)
 
 <br />
 
-[**Get Started**](#quick-start) · [**Configuration**](docs/configuration.md) · [**Examples**](examples/minimal) · [**Grammar**](spec/grammar.md) · [**Roadmap**](spec/asm-roadmap.md)
+[**Get Started**](#quick-start) · [**Releases**](#releases) · [**Configuration**](docs/configuration.md) · [**Examples**](examples/minimal) · [**Grammar**](spec/grammar.md) · [**Roadmap**](spec/asm-roadmap.md)
 
 </div>
 
@@ -48,6 +49,7 @@ The entire `kura` toolchain is written in **NASM x86-64 Assembly** (Windows PE +
 
 - [Why Kyto](#why-kyto)
 - [Quick Start](#quick-start)
+- [Releases](#releases)
 - [`.kyto.config`](#kytoconfig)
 - [`kyto.toml`](#kytotoml)
 - [Kura CLI](#kura-cli)
@@ -105,6 +107,37 @@ kura compile
 ```
 
 > Set `config_only = true` in `kyto.toml` to skip `.kyto` sources and compile from config only.
+
+---
+
+## Releases
+
+Pre-built `kura` binaries are published on **[GitHub Releases](https://github.com/voidmute/kyto/releases/latest)**.
+
+| Platform | Asset |
+|:---------|:------|
+| Windows x86-64 | `kura-asm-windows-x86_64.zip` |
+| Linux x86-64 | `kura-asm-linux-x86_64.zip` |
+
+### Windows (from release)
+
+```powershell
+# Download and extract kura-asm-windows-x86_64.zip, then:
+.\kura-asm.exe install
+kura --version
+```
+
+### Linux (from release)
+
+```bash
+# Download and extract kura-asm-linux-x86_64.zip, then:
+chmod +x kura-asm
+./kura-asm install
+export PATH="$HOME/.local/bin:$PATH"
+kura --version
+```
+
+New versions are tagged as `v*` (for example `v0.5.0-asm`). CI builds from source on every push to `main`.
 
 ---
 

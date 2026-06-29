@@ -1,15 +1,21 @@
 # Kyto kura (ASM)
 
-x86-64 Windows implementation of `kura` in NASM. Config-only `kura compile` for v1.
+x86-64 **NASM** implementation of `kura` — Windows PE and Linux ELF.
+
+[![CI](https://img.shields.io/github/actions/workflow/status/voidmute/kyto/ci.yml?branch=main&style=flat-square&label=CI)](https://github.com/voidmute/kyto/actions/workflows/ci.yml)
+[![Release](https://img.shields.io/github/v/release/voidmute/kyto?style=flat-square&label=release)](https://github.com/voidmute/kyto/releases/latest)
+
+Main docs: [README.md](../README.md) · Releases: [github.com/voidmute/kyto/releases](https://github.com/voidmute/kyto/releases/latest)
 
 ## Requirements
 
 - [NASM](https://www.nasm.us/) 2.15+
-- [GoLink](http://www.godevtool.com/) or MSVC `link.exe`
-
-`build.ps1` can download a portable NASM zip and GoLink when they are not on PATH.
+- **Windows:** [GoLink](http://www.godevtool.com/) or MSVC `link.exe` (`build.ps1` can download portable NASM + GoLink)
+- **Linux:** `ld` (binutils)
 
 ## Build
+
+### Windows
 
 ```powershell
 .\asm\build.ps1
@@ -17,25 +23,34 @@ x86-64 Windows implementation of `kura` in NASM. Config-only `kura compile` for 
 
 Output: `bin/kura-asm.exe`
 
-## Commands (v1)
+### Linux
+
+```bash
+./asm/build.sh
+```
+
+Output: `bin/kura-asm`
+
+## Commands
 
 | Command | Description |
-|---------|-------------|
-| `kura compile` | Read `.kyto.config` + `kyto.toml` paths, write env/users/deploy artifacts |
-| `kura install` | Copy binary to `%USERPROFILE%\.local\bin\kura.exe` |
-| `kura --version` | Print `kura 0.2.0-asm` |
+|:--------|:------------|
+| `kura compile` | Read `.kyto.config` + `kyto.toml`, write env/users/deploy artifacts |
+| `kura check` | Parse and evaluate without writing files |
+| `kura init` | Scaffold project files |
+| `kura install` | Install to `~/.local/bin` |
+| `kura encrypt` / `decrypt` | ChaCha20-Poly1305 (RFC 8439) |
+| `kura --version` | Print `kura 0.5.0-asm` |
 
-## Modules
+## Layout
 
 | File | Role |
-|------|------|
-| `src/kura.asm` | Entry, command dispatch |
-| `src/win_io.asm` | CreateFile, ReadFile, WriteFile |
-| `src/str.asm` | strcmp, strcat, trim, parse lists |
+|:-----|:-----|
+| `src/kura.asm` | Windows entry, command-line parsing |
+| `src/kura_linux.asm` | Linux ELF entry |
+| `src/win_io.asm` / `linux_io.asm` | File I/O |
+| `src/crypto.asm` | ChaCha20-Poly1305 |
 | `src/config.asm` | `.kyto.config` parser (v2) |
-| `src/toml_min.asm` | Scrape emit paths from `kyto.toml` |
-| `src/emit_env.asm` | `.env` / `.env.example` |
-| `src/emit_users.asm` | SQL, TypeScript, JSON |
-| `src/emit_deploy.asm` | Bash export script |
+| `src/kyto_compile.asm` | Full `.kyto` compile path |
 
-Deferred: full `.kyto` lexer/parser, encrypt/decrypt, Linux ELF.
+See [spec/asm-roadmap.md](../spec/asm-roadmap.md) for the full roadmap.

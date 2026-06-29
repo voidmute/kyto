@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="icons/kyto.png" alt="Логотип Kyto" width="128" />
+<img src="https://raw.githubusercontent.com/voidmute/kyto/main/icons/kyto.png" alt="Логотип Kyto" width="128" />
 
 # Kyto
 
@@ -12,26 +12,27 @@
 
 ### Языки
 
-[![English](https://img.shields.io/badge/lang-English-red?style=for-the-badge)](README.md)
-[![Русский](https://img.shields.io/badge/lang-Русский-blue?style=for-the-badge)](README.ru.md)
-[![Español](https://img.shields.io/badge/lang-Español-yellow?style=for-the-badge)](README.es.md)
-[![Français](https://img.shields.io/badge/lang-Français-blue?style=for-the-badge)](README.fr.md)
-[![Deutsch](https://img.shields.io/badge/lang-Deutsch-black?style=for-the-badge)](README.de.md)
-[![中文](https://img.shields.io/badge/lang-中文-orange?style=for-the-badge)](README.zh-CN.md)
-[![日本語](https://img.shields.io/badge/lang-日本語-purple?style=for-the-badge)](README.ja.md)
-[![Português](https://img.shields.io/badge/lang-Português-green?style=for-the-badge)](README.pt-BR.md)
-[![Українська](https://img.shields.io/badge/lang-Українська-lightblue?style=for-the-badge)](README.uk.md)
+[![English](https://img.shields.io/badge/lang-English-red?style=for-the-badge)](https://github.com/voidmute/kyto/blob/main/README.md)
+[![Русский](https://img.shields.io/badge/lang-Русский-blue?style=for-the-badge)](https://github.com/voidmute/kyto/blob/main/README.ru.md)
+[![Español](https://img.shields.io/badge/lang-Español-yellow?style=for-the-badge)](https://github.com/voidmute/kyto/blob/main/README.es.md)
+[![Français](https://img.shields.io/badge/lang-Français-blue?style=for-the-badge)](https://github.com/voidmute/kyto/blob/main/README.fr.md)
+[![Deutsch](https://img.shields.io/badge/lang-Deutsch-black?style=for-the-badge)](https://github.com/voidmute/kyto/blob/main/README.de.md)
+[![中文](https://img.shields.io/badge/lang-中文-orange?style=for-the-badge)](https://github.com/voidmute/kyto/blob/main/README.zh-CN.md)
+[![日本語](https://img.shields.io/badge/lang-日本語-9B59B6?style=for-the-badge)](https://github.com/voidmute/kyto/blob/main/README.ja.md)
+[![Português](https://img.shields.io/badge/lang-Português-green?style=for-the-badge)](https://github.com/voidmute/kyto/blob/main/README.pt-BR.md)
+[![Українська](https://img.shields.io/badge/lang-Українська-55ACEE?style=for-the-badge)](https://github.com/voidmute/kyto/blob/main/README.uk.md)
 
 <br />
 
-[![CI](https://img.shields.io/github/actions/workflow/status/voidmute/kyto/ci.yml?branch=main&style=for-the-badge&logo=githubactions&logoColor=white)](https://github.com/voidmute/kyto/actions/workflows/ci.yml)
-[![License](https://img.shields.io/badge/license-MIT-blue?style=for-the-badge)](LICENSE)
-[![Assembly](https://img.shields.io/badge/toolchain-NASM%20x86--64-111?style=for-the-badge)](spec/asm-roadmap.md)
-[![Version](https://img.shields.io/badge/kura-0.5.0--asm-informational?style=for-the-badge)](https://github.com/voidmute/kyto/releases)
+[![CI](https://img.shields.io/github/actions/workflow/status/voidmute/kyto/ci.yml?branch=main&style=for-the-badge&logo=githubactions&logoColor=white&label=CI)](https://github.com/voidmute/kyto/actions/workflows/ci.yml)
+[![License](https://img.shields.io/badge/license-MIT-blue?style=for-the-badge)](https://github.com/voidmute/kyto/blob/main/LICENSE)
+[![Release](https://img.shields.io/github/v/release/voidmute/kyto?style=for-the-badge&logo=github&label=release)](https://github.com/voidmute/kyto/releases/latest)
+[![Downloads](https://img.shields.io/github/downloads/voidmute/kyto/total?style=for-the-badge&color=2481D7&label=downloads)](https://github.com/voidmute/kyto/releases)
+[![NASM](https://img.shields.io/badge/toolchain-NASM%20x86--64-111111?style=for-the-badge)](https://github.com/voidmute/kyto/blob/main/spec/asm-roadmap.md)
 
 <br />
 
-[**Начать**](#быстрый-старт) · [**Конфигурация**](docs/configuration.md) · [**Примеры**](examples/minimal) · [**Грамматика**](spec/grammar.md)
+[**Начать**](#быстрый-старт) · [**Релизы**](#релизы) · [**Конфигурация**](docs/configuration.md) · [**Примеры**](examples/minimal) · [**Грамматика**](spec/grammar.md)
 
 </div>
 
@@ -79,6 +80,19 @@ kura init --name my-app
 cp .kyto.config.example .kyto.config
 kura compile
 ```
+
+---
+
+## Релизы
+
+Готовые бинарники `kura` — на **[GitHub Releases](https://github.com/voidmute/kyto/releases/latest)**.
+
+| Платформа | Файл |
+|:----------|:-----|
+| Windows x86-64 | `kura-asm-windows-x86_64.zip` |
+| Linux x86-64 | `kura-asm-linux-x86_64.zip` |
+
+Скачайте архив, распакуйте и выполните `kura-asm install` (или `kura-asm.exe install` на Windows).
 
 ---
 
