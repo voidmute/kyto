@@ -138,6 +138,8 @@ jobs:
           else
             echo "tag=${GITHUB_REF#refs/tags/}" >> "$GITHUB_OUTPUT"
           fi
+      - name: List release archives
+        run: find artifacts -name '*.zip' -type f
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
@@ -167,5 +169,5 @@ jobs:
             See [Packages](https://github.com/voidmute/kyto/pkgs/container/kyto) for all tags.
           generate_release_notes: true
           files: |
-            artifacts/kyto-linux-zip/kyto-*-linux-x86_64.zip
-            artifacts/kyto-windows-zip/kyto-*-windows-x86_64.zip
+            artifacts/linux/kyto-*-linux-x86_64.zip
+            artifacts/windows/kyto-*-windows-x86_64.zip
