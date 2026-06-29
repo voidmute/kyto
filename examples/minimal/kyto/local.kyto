@@ -1,0 +1,9 @@
+struct Secrets {
+  domain: string
+  session_secret: string
+}
+
+let secrets = Secrets {
+  domain: "demo.local",
+  session_secret: "",
+}

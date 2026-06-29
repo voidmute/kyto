@@ -1,0 +1,19 @@
+[project]
+name = "minimal-example"
+entry = "kyto/main.kyto"
+
+[config]
+file = ".kyto.config"
+
+[emit.env]
+file = ".env"
+example = ".env.example"
+
+[emit.users]
+sql = "generated/users.sql"
+typescript = "generated/users.ts"
+typescript_export = "APP_USERS"
+json = "generated/users.json"
+
+[emit.deploy]
+script = "generated/deploy-env.sh"

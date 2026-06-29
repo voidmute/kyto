@@ -1,0 +1,15 @@
+[project]
+name = "kyto"
+entry = "examples/minimal/kyto/main.kyto"
+
+[config]
+file = "examples/minimal/.kyto.config"
+
+[emit.env]
+enabled = false
+
+[emit.users]
+enabled = false
+
+[emit.deploy]
+enabled = false
