@@ -44,7 +44,8 @@ jobs:
             git remote add origin "$WIKI_URL"
           fi
 
-          rsync -av --delete "${{ github.workspace }}/repo/docs/wiki/" "$WORK/" --exclude README.md
+          rsync -av --delete --exclude README.md --exclude .git \
+            "${{ github.workspace }}/repo/docs/wiki/" "$WORK/"
           cd "$WORK"
           git add -A
           if git diff --staged --quiet; then
