@@ -7,9 +7,6 @@
 extern GetEnvironmentVariableA
 extern ExpandEnvironmentStringsA
 %else
-extern kyto_environ_ptr
-extern home_buf
-extern find_home
 extern linux_env_get
 %endif
 extern read_file_to_buf
