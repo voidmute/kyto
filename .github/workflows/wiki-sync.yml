@@ -19,6 +19,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          path: repo
 
       - name: Publish docs/wiki to GitHub Wiki
         env:
@@ -29,7 +31,7 @@ jobs:
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
           WIKI_URL="https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.wiki.git"
-          WORK=wiki-push
+          WORK=/tmp/kyto-wiki-push
           rm -rf "$WORK"
 
           if git clone "$WIKI_URL" "$WORK" 2>/dev/null; then
@@ -38,18 +40,16 @@ jobs:
             echo "Initializing new wiki repository"
             mkdir "$WORK"
             cd "$WORK"
-            git init
+            git init -b master
             git remote add origin "$WIKI_URL"
-            cd ..
           fi
 
+          rsync -av --delete "${{ github.workspace }}/repo/docs/wiki/" "$WORK/" --exclude README.md
           cd "$WORK"
-          rsync -av --delete ../docs/wiki/ . --exclude README.md
           git add -A
           if git diff --staged --quiet; then
             echo "Wiki already up to date"
             exit 0
           fi
           git commit -m "Sync wiki from docs/wiki"
-          git branch -M master
           git push -u origin master
