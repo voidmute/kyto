@@ -14,10 +14,14 @@ section .data
     kura_name       db "/kura", 0
     msg_installed   db "installed kura -> ", 0
     msg_nl          db 10, 0
+    spc_chr         db " ", 0
 
 section .bss
 global kyto_environ_ptr
 kyto_environ_ptr:   resq 1
+global cmdline_rest
+cmdline_rest:       resq 1
+cmdline_buf:        resb 2048
 path_buf:   resb PATH_MAX
 home_buf:   resb PATH_MAX
 self_path:  resb PATH_MAX
@@ -50,8 +54,35 @@ _start:
     shl     rax, 3
     add     rbx, rax
     mov     [kyto_environ_ptr], rbx
-    mov     rsi, [rsp + 16]
-    mov     rcx, rsi
+    push    rbx
+    mov     ebx, [r15]
+    cmp     ebx, 3
+    jl      .no_rest
+    mov     esi, 2
+    lea     rcx, [cmdline_buf]
+    mov     rdx, [r15 + 8 + rsi * 8]
+    call    strcpy
+    inc     esi
+.rest_loop:
+    cmp     esi, ebx
+    jge     .rest_done
+    lea     rcx, [cmdline_buf]
+    lea     rdx, [spc_chr]
+    call    strcat
+    lea     rcx, [cmdline_buf]
+    mov     rdx, [r15 + 8 + rsi * 8]
+    call    strcat
+    inc     esi
+    jmp     .rest_loop
+.rest_done:
+    lea     rax, [cmdline_buf]
+    mov     [cmdline_rest], rax
+    jmp     .dispatch
+.no_rest:
+    mov     qword [cmdline_rest], 0
+.dispatch:
+    pop     rbx
+    mov     rcx, [rsp + 16]
     call    dispatch_argv
     mov     rdi, rax
     mov     rax, SYS_exit
