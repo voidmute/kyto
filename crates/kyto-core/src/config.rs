@@ -1,5 +1,8 @@
-use std::collections::HashSet;
+use std::collections::{BTreeMap, HashSet};
 use std::path::Path;
+
+use base64::{engine::general_purpose::STANDARD, Engine as _};
+use rand::RngCore;
 
 use crate::emit::{EmitBundle, UserRecord};
 use crate::error::{KytoError, KytoResult};
@@ -9,6 +12,7 @@ pub struct KytoConfig {
     pub domain: Option<String>,
     pub user_names: Vec<String>,
     pub admin_names: Vec<String>,
+    pub extra: BTreeMap<String, String>,
 }
 
 impl KytoConfig {
@@ -41,6 +45,28 @@ impl KytoConfig {
             })
             .collect())
     }
+
+    pub fn env_overlay(&self) -> KytoResult<BTreeMap<String, String>> {
+        let mut env = self.extra.clone();
+        if let Some(domain) = &self.domain {
+            env.insert("APP_URL".into(), format!("https://{domain}"));
+        }
+        let secret = env.get("SESSION_SECRET").cloned().unwrap_or_default();
+        if secret.is_empty() {
+            env.insert("SESSION_SECRET".into(), random_base64(32));
+        }
+        Ok(env)
+    }
+
+    pub fn deploy_map(&self) -> BTreeMap<String, String> {
+        let mut deploy = BTreeMap::new();
+        for (key, value) in &self.extra {
+            if let Some(rest) = key.strip_prefix("REPO_") {
+                deploy.insert(rest.to_ascii_lowercase(), value.clone());
+            }
+        }
+        deploy
+    }
 }
 
 pub fn parse(source: &str) -> KytoResult<KytoConfig> {
@@ -53,44 +79,37 @@ pub fn parse(source: &str) -> KytoResult<KytoConfig> {
             continue;
         }
 
-        let mut parts = line.split_whitespace();
-        let keyword = parts
-            .next()
-            .ok_or_else(|| config_error(line_num, "empty directive"))?
-            .to_ascii_uppercase();
+        let (keyword, value) = split_key_value(line)
+            .ok_or_else(|| config_error(line_num, "empty directive"))?;
+        let keyword_upper = keyword.to_ascii_uppercase();
 
-        match keyword.as_str() {
+        match keyword_upper.as_str() {
             "DOMAIN" => {
-                let domain = parts
-                    .next()
-                    .ok_or_else(|| config_error(line_num, "DOMAIN requires a host"))?;
-                if parts.next().is_some() {
-                    return Err(config_error(
-                        line_num,
-                        "DOMAIN accepts only one host value",
-                    ));
+                if value.is_empty() {
+                    return Err(config_error(line_num, "DOMAIN requires a host"));
                 }
-                cfg.domain = Some(domain.to_ascii_lowercase());
+                if value.contains(' ') {
+                    return Err(config_error(line_num, "DOMAIN accepts only one host value"));
+                }
+                cfg.domain = Some(value.to_ascii_lowercase());
             }
             "USERS" => {
-                let names: Vec<String> = parts.map(|s| s.to_ascii_lowercase()).collect();
+                let names = parse_name_list(&value);
                 if names.is_empty() {
                     return Err(config_error(line_num, "USERS requires at least one name"));
                 }
                 cfg.user_names = dedupe(names);
             }
             "ADMIN" => {
-                let names: Vec<String> = parts.map(|s| s.to_ascii_lowercase()).collect();
+                let names = parse_name_list(&value);
                 if names.is_empty() {
                     return Err(config_error(line_num, "ADMIN requires at least one name"));
                 }
                 cfg.admin_names = dedupe(names);
             }
-            other => {
-                return Err(config_error(
-                    line_num,
-                    &format!("unknown directive '{other}'"),
-                ));
+            _ => {
+                cfg.extra
+                    .insert(keyword_upper, parse_quoted_value(&value));
             }
         }
     }
@@ -103,6 +122,14 @@ pub fn load_and_apply(
     config_file: &str,
     bundle: &mut EmitBundle,
 ) -> KytoResult<()> {
+    let cfg = load_config(repo_root, config_file)?;
+    let Some(cfg) = cfg else {
+        return Ok(());
+    };
+    apply_config(&cfg, bundle)
+}
+
+pub fn load_config(repo_root: &Path, config_file: &str) -> KytoResult<Option<KytoConfig>> {
     let path = repo_root.join(config_file);
     if !path.exists() {
         let example = repo_root.join(format!("{config_file}.example"));
@@ -111,19 +138,40 @@ pub fn load_and_apply(
                 KytoError::Io(path.display().to_string(), e.to_string())
             })?;
         } else {
-            return Ok(());
+            return Ok(None);
         }
     }
 
     let source = std::fs::read_to_string(&path)
         .map_err(|e| KytoError::Io(path.display().to_string(), e.to_string()))?;
-    let cfg = parse(&source)?;
+    Ok(Some(parse(&source)?))
+}
+
+pub fn apply_config(cfg: &KytoConfig, bundle: &mut EmitBundle) -> KytoResult<()> {
+    let overlay = cfg.env_overlay()?;
+    let env = bundle.env.get_or_insert_with(BTreeMap::new);
+    for (k, v) in overlay {
+        env.insert(k, v);
+    }
 
     if !cfg.user_names.is_empty() {
         bundle.users = Some(cfg.clone().into_user_records()?);
     }
 
-    if let Some(domain) = cfg.domain {
+    let deploy = cfg.deploy_map();
+    if !deploy.is_empty() {
+        bundle.deploy = Some(deploy);
+    } else if let Some(existing) = bundle.deploy.as_mut() {
+        for (k, v) in &cfg.extra {
+            if k.starts_with("REPO_") {
+                if let Some(rest) = k.strip_prefix("REPO_") {
+                    existing.insert(rest.to_ascii_lowercase(), v.clone());
+                }
+            }
+        }
+    }
+
+    if let Some(domain) = &cfg.domain {
         let app_url = format!("https://{domain}");
         if let Some(env) = bundle.env.as_mut() {
             env.insert("APP_URL".into(), app_url);
@@ -131,6 +179,43 @@ pub fn load_and_apply(
     }
 
     Ok(())
+}
+
+fn split_key_value(line: &str) -> Option<(&str, &str)> {
+    let line = line.trim();
+    let mut parts = line.splitn(2, char::is_whitespace);
+    let key = parts.next()?.trim();
+    let value = parts.next().unwrap_or("").trim();
+    if key.is_empty() {
+        return None;
+    }
+    Some((key, value))
+}
+
+fn parse_name_list(value: &str) -> Vec<String> {
+    value
+        .split_whitespace()
+        .map(|s| s.to_ascii_lowercase())
+        .collect()
+}
+
+fn parse_quoted_value(value: &str) -> String {
+    let trimmed = value.trim();
+    if trimmed.len() >= 2 {
+        let bytes = trimmed.as_bytes();
+        if (bytes[0] == b'"' && bytes[bytes.len() - 1] == b'"')
+            || (bytes[0] == b'\'' && bytes[bytes.len() - 1] == b'\'')
+        {
+            return trimmed[1..trimmed.len() - 1].to_string();
+        }
+    }
+    trimmed.to_string()
+}
+
+fn random_base64(byte_len: usize) -> String {
+    let mut bytes = vec![0u8; byte_len];
+    rand::thread_rng().fill_bytes(&mut bytes);
+    STANDARD.encode(bytes)
 }
 
 fn strip_comment(line: &str) -> &str {
@@ -162,6 +247,31 @@ mod tests {
         assert_eq!(cfg.domain.as_deref(), Some("portal.example.com"));
         assert_eq!(cfg.user_names, vec!["oleg", "natalia", "void"]);
         assert_eq!(cfg.admin_names, vec!["void"]);
+    }
+
+    #[test]
+    fn parses_arbitrary_env_keys() {
+        let cfg = parse(
+            "DOMAIN app.example.com\nUSERS void\nDATABASE_URL postgresql://localhost/db\nREPO_DIR /root/app\n",
+        )
+        .unwrap();
+        assert_eq!(
+            cfg.extra.get("DATABASE_URL").map(String::as_str),
+            Some("postgresql://localhost/db")
+        );
+        assert_eq!(cfg.deploy_map().get("dir").map(String::as_str), Some("/root/app"));
+        let env = cfg.env_overlay().unwrap();
+        assert_eq!(env.get("DATABASE_URL").map(String::as_str), Some("postgresql://localhost/db"));
+        assert!(env.contains_key("SESSION_SECRET"));
+    }
+
+    #[test]
+    fn parses_quoted_values() {
+        let cfg = parse("BACKUP_CRON \"0 2 * * *\"\nUSERS void\n").unwrap();
+        assert_eq!(
+            cfg.extra.get("BACKUP_CRON").map(String::as_str),
+            Some("0 2 * * *")
+        );
     }
 
     #[test]

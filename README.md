@@ -12,7 +12,8 @@
 <p align="center">
   <a href="https://github.com/voidmute/kyto/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/voidmute/kyto/ci.yml?branch=main&style=flat-square" alt="CI" /></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue?style=flat-square" alt="License" /></a>
-  <a href="https://www.rust-lang.org"><img src="https://img.shields.io/badge/rust-stable-orange?style=flat-square" alt="Rust" /></a>
+  <a href="https://www.rust-lang.org"><img src="https://img.shields.io/badge/kura-asm-x64-111?style=flat-square" alt="kura asm" /></a>
+  <a href="https://www.rust-lang.org"><img src="https://img.shields.io/badge/rust-legacy-orange?style=flat-square" alt="Rust legacy" /></a>
 </p>
 
 <p align="center">
@@ -39,12 +40,34 @@ Kyto is **local-only**: no network, no telemetry, no cloud dependency.
 
 ## Quick start
 
+**Windows (ASM kura, recommended)**
+
+```powershell
+git clone https://github.com/voidmute/kyto.git
+cd kyto
+.\asm\build.ps1
+.\bin\kura-asm.exe install
+```
+
+**Ubuntu / Linux (ASM kura, recommended)**
+
 ```bash
 git clone https://github.com/voidmute/kyto.git
 cd kyto
+sudo apt install nasm    # if needed
+./asm/build.sh
+./bin/kura-asm install
+export PATH="$HOME/.local/bin:$PATH"
+```
+
+**Rust kura (legacy fallback during ASM port)**
+
+```bash
 cargo build --release
 ./target/release/kura install
 ```
+
+See [spec/asm-roadmap.md](spec/asm-roadmap.md) for the path to a **100% Assembly** Kyto implementation (full `.kyto` language, encrypt/decrypt, no Rust).
 
 Scaffold a new project:
 
@@ -52,23 +75,30 @@ Scaffold a new project:
 mkdir my-app && cd my-app
 kura init --name my-app
 cp .kyto.config.example .kyto.config
+# config-only: set config_only = true in kyto.toml
 kura compile
 ```
 
 ## .kyto.config
 
-Human-friendly overlay for domain and users. Comments use `+`.
+Human-friendly config for domain, users, and **any env key**. Comments use `+`.
 
 ```text
 + Production portal
 DOMAIN app.example.com
 ADMIN alice
 USERS alice bob carol
+DATABASE_URL postgresql://localhost/app
+REPO_DIR /var/www/app
 ```
 
 - Names are case-insensitive (`BOB` becomes `bob`)
 - `ADMIN` must be listed in `USERS`
+- Any other `KEY value` line becomes an env variable
+- Set `config_only = true` in `kyto.toml` to skip `.kyto` sources
 - Run `kura compile` after every change
+
+See [spec/kyto-lite.md](spec/kyto-lite.md) for the v2 config-first workflow.
 
 ## kyto.toml
 

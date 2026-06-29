@@ -1,15 +1,27 @@
 [project]
-name = "kyto"
-entry = "examples/minimal/kyto/main.kyto"
+name = "family-home-portal"
+config_only = true
 
 [config]
-file = "examples/minimal/.kyto.config"
+file = ".kyto.config"
 
 [emit.env]
-enabled = false
+file = ".env"
+example = ".env.example"
+redact_keys = ["SECRET", "TOKEN", "PASSWORD", "KEY"]
 
 [emit.users]
-enabled = false
+sql = "generated/seed.sql"
+sql_table = "users"
+typescript = "src/generated/users.ts"
+typescript_export = "AUTHORIZED_USERS"
+json = "generated/users.json"
 
 [emit.deploy]
-enabled = false
+script = "scripts/generated/kyto-env.sh"
+
+[emit.deploy.apply_roles]
+enabled = true
+command = "docker compose exec -T postgres psql -U homelab -d homelab"
+admin_role = "ADMIN"
+user_role = "USER"

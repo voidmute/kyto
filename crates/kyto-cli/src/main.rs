@@ -72,13 +72,25 @@ fn run() -> Result<(), KytoError> {
     let cli = Cli::parse();
     match cli.command {
         Commands::Check { entry } => {
-            let entry = resolve_entry(entry);
-            kyto_core::check(&entry)?;
+            if entry.is_some() {
+                kyto_core::check(&resolve_entry(entry))?;
+            } else {
+                let cwd = env::current_dir()
+                    .map_err(|e| KytoError::Io("cwd".into(), e.to_string()))?;
+                let repo_root = project::find_project_root(&cwd);
+                kyto_core::check_at(&repo_root)?;
+            }
             println!("ok");
         }
         Commands::Compile { entry } => {
-            let entry = resolve_entry(entry);
-            let summary = kyto_core::compile(&entry)?;
+            let summary = if let Some(e) = entry {
+                kyto_core::compile(&e)?
+            } else {
+                let cwd = env::current_dir()
+                    .map_err(|e| KytoError::Io("cwd".into(), e.to_string()))?;
+                let repo_root = project::find_project_root(&cwd);
+                kyto_core::compile_at(&repo_root)?
+            };
             println!(
                 "compiled: {} env keys, {} users, {} deploy keys",
                 summary.env_keys, summary.user_count, summary.deploy_keys

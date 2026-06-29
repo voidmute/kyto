@@ -1,0 +1,5 @@
++ example project
+DOMAIN example.com
+ADMIN admin
+USERS admin
+NODE_ENV development

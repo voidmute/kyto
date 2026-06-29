@@ -8,6 +8,7 @@ pub mod lexer;
 pub mod parser;
 pub mod project;
 
+use std::collections::BTreeMap;
 use std::path::{Path, PathBuf};
 
 pub use error::{KytoError, KytoResult};
@@ -22,6 +23,21 @@ pub struct CompileOptions {
 }
 
 impl CompileOptions {
+    pub fn from_repo(repo_root: PathBuf) -> KytoResult<Self> {
+        let manifest = project::load_manifest(&repo_root)?;
+        let entry = if project::is_config_only(&manifest, &repo_root) {
+            repo_root.join(&manifest.project.entry)
+        } else {
+            project::resolve_entry(&repo_root, None)
+        };
+        Ok(Self {
+            entry,
+            repo_root,
+            manifest,
+            write: true,
+        })
+    }
+
     pub fn from_entry(entry: PathBuf) -> KytoResult<Self> {
         let repo_root = project::find_project_root(&entry);
         let manifest = project::load_manifest(&repo_root)?;
@@ -34,11 +50,23 @@ impl CompileOptions {
     }
 }
 
+pub fn check_at(repo_root: &Path) -> KytoResult<()> {
+    let mut opts = CompileOptions::from_repo(repo_root.to_path_buf())?;
+    opts.write = false;
+    compile_with_options(&opts)?;
+    Ok(())
+}
+
 pub fn check(entry: &Path) -> KytoResult<()> {
     let mut opts = CompileOptions::from_entry(entry.to_path_buf())?;
     opts.write = false;
     compile_with_options(&opts)?;
     Ok(())
+}
+
+pub fn compile_at(repo_root: &Path) -> KytoResult<emit::EmitSummary> {
+    let opts = CompileOptions::from_repo(repo_root.to_path_buf())?;
+    compile_with_options(&opts)
 }
 
 pub fn compile(entry: &Path) -> KytoResult<emit::EmitSummary> {
@@ -47,11 +75,30 @@ pub fn compile(entry: &Path) -> KytoResult<emit::EmitSummary> {
 }
 
 fn compile_with_options(opts: &CompileOptions) -> KytoResult<emit::EmitSummary> {
+    if project::is_config_only(&opts.manifest, &opts.repo_root) {
+        return compile_config_only(opts);
+    }
+
     let source = read_entry_source(&opts.entry)?;
     let program = parser::parse(&source)?;
     let mut evaluator = eval::Evaluator::new(opts.entry.clone(), opts.repo_root.clone());
     let mut emits = evaluator.eval_program(&program)?;
     config::load_and_apply(&opts.repo_root, &opts.manifest.config.file, &mut emits)?;
+    finish_compile(opts, emits)
+}
+
+fn compile_config_only(opts: &CompileOptions) -> KytoResult<emit::EmitSummary> {
+    let mut emits = emit::EmitBundle::default();
+    if let Some(cfg) = config::load_config(&opts.repo_root, &opts.manifest.config.file)? {
+        config::apply_config(&cfg, &mut emits)?;
+    }
+    if emits.env.is_none() {
+        emits.env = Some(BTreeMap::new());
+    }
+    finish_compile(opts, emits)
+}
+
+fn finish_compile(opts: &CompileOptions, emits: emit::EmitBundle) -> KytoResult<emit::EmitSummary> {
     if opts.write {
         emit::write_artifacts(&opts.repo_root, &opts.manifest, &emits)
     } else {
@@ -94,7 +141,7 @@ pub fn init_project(repo_root: &Path, name: &str) -> KytoResult<()> {
     let manifest = format!(
         r#"[project]
 name = "{name}"
-entry = "kyto/main.kyto"
+config_only = true
 
 [config]
 file = ".kyto.config"
@@ -119,70 +166,9 @@ script = "scripts/generated/deploy-env.sh"
     let config_example = repo_root.join(".kyto.config.example");
     std::fs::write(
         &config_example,
-        "+ Edit users and domain, then run: kura compile\nDOMAIN localhost\nADMIN admin\nUSERS admin\n",
+        "+ Edit and run: kura compile\nDOMAIN localhost\nADMIN admin\nUSERS admin\nNODE_ENV development\n",
     )
     .map_err(|e| KytoError::Io(config_example.display().to_string(), e.to_string()))?;
-
-    let kyto_dir = repo_root.join("kyto");
-    std::fs::create_dir_all(&kyto_dir)
-        .map_err(|e| KytoError::Io(kyto_dir.display().to_string(), e.to_string()))?;
-
-    let main_kyto = kyto_dir.join("main.kyto");
-    std::fs::write(
-        &main_kyto,
-        r#"import local from "./local.kyto"
-
-enum Role {
-  Admin
-  User
-}
-
-struct User {
-  name: string
-  role: Role
-}
-
-let users: User[] = []
-
-fn build_env(secrets) -> map<string, string> {
-  let secret = secrets.session_secret
-  if secret == "" {
-    secret = random_base64(32)
-  }
-  return {
-    "APP_URL": "https://" + secrets.domain,
-    "SESSION_SECRET": secret,
-    "NODE_ENV": "development",
-  }
-}
-
-let deploy = {
-  repo_dir: ".",
-}
-
-emit env(build_env(local.secrets))
-emit users(users)
-emit deploy(deploy)
-"#,
-    )
-    .map_err(|e| KytoError::Io(main_kyto.display().to_string(), e.to_string()))?;
-
-    let local_example = kyto_dir.join("local.example.kyto");
-    std::fs::write(
-        &local_example,
-        r#"+ Copy to local.kyto and customize secrets
-struct Secrets {
-  domain: string
-  session_secret: string
-}
-
-let secrets = Secrets {
-  domain: "localhost",
-  session_secret: "",
-}
-"#,
-    )
-    .map_err(|e| KytoError::Io(local_example.display().to_string(), e.to_string()))?;
 
     Ok(())
 }

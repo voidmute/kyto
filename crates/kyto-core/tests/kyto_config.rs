@@ -20,9 +20,9 @@ fn parses_example_config() {
 }
 
 #[test]
-fn rejects_unknown_directive_with_line_number() {
-    let err = config::parse("FOO bar\n").unwrap_err();
-    assert!(err.to_string().contains(".kyto.config:1"));
+fn accepts_arbitrary_keys() {
+    let cfg = config::parse("FOO bar\nUSERS void\n").unwrap();
+    assert_eq!(cfg.extra.get("FOO").map(String::as_str), Some("bar"));
 }
 
 #[test]

@@ -22,6 +22,8 @@ pub struct ProjectSection {
     pub name: String,
     #[serde(default = "default_entry")]
     pub entry: String,
+    #[serde(default)]
+    pub config_only: bool,
 }
 
 #[derive(Debug, Clone, Deserialize, Default)]
@@ -168,6 +170,16 @@ pub fn load_manifest(repo_root: &Path) -> KytoResult<KytoManifest> {
         .map_err(|e| KytoError::Io(path.display().to_string(), e.to_string()))?;
     toml::from_str(&source)
         .map_err(|e| KytoError::Eval(format!("{MANIFEST_NAME}: {e}")))
+}
+
+pub fn is_config_only(manifest: &KytoManifest, repo_root: &Path) -> bool {
+    if manifest.project.config_only {
+        return true;
+    }
+    if manifest.project.entry.is_empty() {
+        return true;
+    }
+    !repo_root.join(&manifest.project.entry).exists()
 }
 
 pub fn resolve_entry(repo_root: &Path, entry: Option<&Path>) -> PathBuf {

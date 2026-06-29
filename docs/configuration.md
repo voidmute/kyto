@@ -3,7 +3,9 @@
 Kyto projects are configured with two layers:
 
 1. **`kyto.toml`** - project manifest (paths, emit targets, hooks)
-2. **`.kyto.config`** - simple user/domain overlay
+2. **`.kyto.config`** - config-first overlay (domain, users, arbitrary env keys)
+
+Set `config_only = true` under `[project]` to compile from `.kyto.config` alone (no `.kyto` parser).
 
 ## kyto.toml
 
@@ -12,7 +14,8 @@ Kyto projects are configured with two layers:
 | Key | Default | Description |
 |-----|---------|-------------|
 | `name` | `my-project` | Project label |
-| `entry` | `kyto/main.kyto` | Main `.kyto` source file |
+| `entry` | `kyto/main.kyto` | Main `.kyto` source file (optional when `config_only = true`) |
+| `config_only` | `false` | When `true`, skip `.kyto` and compile from `.kyto.config` only |
 
 ### `[config]`
 
@@ -62,9 +65,22 @@ Kyto projects are configured with two layers:
 DOMAIN host.example.com
 ADMIN admin_user
 USERS user_one user_two admin_user
+DATABASE_URL postgresql://user:pass@host/db
+REPO_SSH git@github.com:org/repo.git
+REPO_DIR /var/www/app
 ```
 
+| Line | Rule |
+|------|------|
+| `DOMAIN host` | Sets `APP_URL=https://host` |
+| `USERS a b c` | Login names (lowercased) |
+| `ADMIN a` | Admin subset of `USERS` |
+| `KEY value` | Any other env variable (quoted values supported) |
+| `REPO_*` | Deploy map entries (`REPO_DIR` -> `export DIR=...`) |
+
 Comments: `+` to end of line.
+
+Full spec: [spec/kyto-lite.md](../spec/kyto-lite.md)
 
 ## Encryption
 

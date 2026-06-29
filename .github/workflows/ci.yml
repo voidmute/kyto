@@ -7,13 +7,46 @@ on:
     branches: [main]
 
 jobs:
-  test:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest]
+  asm-linux:
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: dtolnay/rust-toolchain@stable
-      - run: cargo test --workspace
-      - run: cargo build --release
+      - name: Install NASM
+        run: sudo apt-get update && sudo apt-get install -y nasm
+      - name: Build kura-asm
+        run: ./asm/build.sh
+      - name: Smoke test
+        run: |
+          ./bin/kura-asm --version
+          if [ ! -f .kyto.config ]; then
+            cp .kyto.config.example .kyto.config
+          fi
+          ./bin/kura-asm compile
+          ./bin/kura-asm check
+          cd examples/minimal && ../../bin/kura-asm compile && ../../bin/kura-asm check
+      - uses: actions/upload-artifact@v4
+        with:
+          name: kura-asm-linux
+          path: bin/kura-asm
+
+  asm-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build kura-asm
+        shell: pwsh
+        run: ./asm/build.ps1
+      - name: Smoke test
+        shell: pwsh
+        run: |
+          ./bin/kura-asm.exe --version
+          if (-not (Test-Path .kyto.config)) {
+            Copy-Item .kyto.config.example .kyto.config
+          }
+          ./bin/kura-asm.exe compile
+          ./bin/kura-asm.exe check
+          Push-Location examples/minimal; ../../bin/kura-asm.exe compile; ../../bin/kura-asm.exe check; Pop-Location
+      - uses: actions/upload-artifact@v4
+        with:
+          name: kura-asm-windows
+          path: bin/kura-asm.exe

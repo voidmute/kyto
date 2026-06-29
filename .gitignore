@@ -5,3 +5,28 @@ examples/**/generated/
 examples/**/.env
 examples/**/.env.example
 .DS_Store
+
+# ASM build outputs
+/bin/
+/asm/build/
+/asm/tools/*.exe
+/asm/tools/*.zip
+/asm/tools/*.gif
+/asm/tools/*.htm
+/asm/tools/nasm/
+*.bin
+plain*.txt
+cipher*.bin
+test-*.txt
+stdout
+
+# Local / debug scratch
+.kyto.config
+.env.example
+generated/
+**/domain-debug.txt
+**/filebuf-debug.txt
+**/find-rax-debug.txt
+**/domain-after-parse.txt
+**/find-rax-debug.txt
+**/*.toml.bak

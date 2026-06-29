@@ -1,6 +1,6 @@
 [project]
 name = "minimal-example"
-entry = "kyto/main.kyto"
+config_only = false
 
 [config]
 file = ".kyto.config"
