@@ -46,8 +46,13 @@ function Find-Nasm {
 function Find-GoLink {
     $cmd = Get-Command golink -ErrorAction SilentlyContinue
     if ($cmd) { return $cmd.Source }
-    $path = Join-Path $Tools "GoLink.exe"
-    if (Test-Path $path) { return $path }
+    $candidates = @(
+        (Join-Path $AsmDir "vendor\GoLink.exe"),
+        (Join-Path $Tools "GoLink.exe")
+    )
+    foreach ($c in $candidates) {
+        if (Test-Path $c) { return $c }
+    }
     New-Item -ItemType Directory -Force -Path $Tools | Out-Null
     $zip = Join-Path $Tools "Golink.zip"
     if (-not (Test-Path $zip)) {
@@ -56,15 +61,21 @@ function Find-GoLink {
             "http://www.godevtool.com/Golink.zip",
             "https://www.godevtool.com/Golink.zip"
         )
+        $downloaded = $false
         foreach ($url in $urls) {
             try {
                 Invoke-WebRequest -Uri $url -OutFile $zip
+                $downloaded = $true
                 break
             } catch {
                 Write-Host "Failed: $url"
             }
         }
+        if (-not $downloaded) {
+            throw "GoLink.exe not found. Place it at asm/vendor/GoLink.exe or ensure godevtool.com is reachable."
+        }
     }
+    $path = Join-Path $Tools "GoLink.exe"
     if (-not (Test-Path $path)) {
         Expand-Archive -Path $zip -DestinationPath $Tools -Force
     }
