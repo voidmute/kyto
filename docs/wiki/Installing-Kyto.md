@@ -1,8 +1,8 @@
 # Installing Kyto
 
-Install the **kura** compiler on your machine.
+Install the **kura** compiler on a machine.
 
-> Remember: you install **kura** to work on **Kyto** projects. See [Kyto vs kura](Kyto-vs-Kura).
+> **Note:** Install **kura** to work on **Kyto** projects. See [Kyto vs kura](Kyto-vs-Kura).
 
 ---
 

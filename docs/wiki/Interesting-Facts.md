@@ -15,9 +15,9 @@ GitHub reports the repo as **~96% Assembly**. That is not a labeling trick — t
 
 ---
 
-## 2. You built a language from scratch
+## 2. A language built from scratch
 
-Kyto has:
+Kyto is not a thin wrapper around another toolchain. It includes:
 
 - Its own **grammar** (`let`, `fn`, `struct`, `emit`, …)
 - Its own **lexer and evaluator** in `.asm` files
@@ -135,9 +135,9 @@ The journey (visible in git history):
 
 ---
 
-## 13. Real-world consumer: Cloud portal
+## 13. Real-world usage
 
-The **Cloud** project uses Kyto with `config_only` to generate portal env, users, and deploy scripts from `.kyto.config` — a production-style consumer, not just `examples/minimal`.
+Projects can run Kyto in `config_only` mode to generate portal env, users, and deploy scripts from `.kyto.config`. See `examples/minimal` in the repository for a minimal working setup.
 
 ---
 
@@ -153,8 +153,14 @@ See [Architecture](Architecture) and the [asm roadmap](https://github.com/voidmu
 
 ---
 
-## 15. You can say this at a party
+## 15. By the numbers
 
-> "I wrote a programming language whose compiler is 21 kilobytes of Assembly, runs on Windows and Linux, and compiles config into SQL and TypeScript."
+| Fact | Detail |
+|:-----|:-------|
+| Compiler size | ~21 KB NASM binary |
+| Platforms | Windows x86-64, Linux x86-64 |
+| Repo language split | ~96% Assembly on GitHub |
+| One `kura compile` | `.env`, SQL, JSON, TypeScript, deploy script |
+| Network at compile time | None |
 
-That is true. Not many people can say it.
+Kyto is a small, self-contained toolchain aimed at teams that want one local compile step instead of maintaining parallel config in several formats.

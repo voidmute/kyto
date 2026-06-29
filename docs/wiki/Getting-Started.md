@@ -4,14 +4,14 @@ This tutorial takes you from **zero** to a working Kyto project in about 10 minu
 
 ---
 
-## Step 0: What you are installing
+## Step 0: What gets installed
 
 | Name | What it is |
 |:-----|:-----------|
 | **Kyto** | The language and project format |
-| **kura** | The compiler binary you run in the terminal |
+| **kura** | The compiler binary used in the terminal |
 
-You do **not** install "Kyto" as a separate program — you install **kura**, which compiles Kyto projects.
+**Kyto** is not a separate installable binary — projects use **kura** to compile Kyto sources and config.
 
 ---
 
@@ -61,13 +61,13 @@ kura init --name my-portal
 cp .kyto.config.example .kyto.config
 ```
 
-You now have:
+After `kura init`, the project contains:
 
 ```
 my-portal/
   kyto.toml
   .kyto.config.example
-  .kyto.config          ← you create this
+  .kyto.config          ← create from `.kyto.config.example`
   kyto/main.kyto        ← optional advanced layer
 ```
 
@@ -75,7 +75,7 @@ my-portal/
 
 ## Step 3: Edit `.kyto.config`
 
-This is the **human-friendly** file you edit daily. Comments start with `+`.
+This is the **human-friendly** file edited day to day. Comments start with `+`.
 
 ```text
 + Production portal

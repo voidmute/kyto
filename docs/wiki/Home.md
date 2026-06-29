@@ -10,15 +10,15 @@
 
 ## Start here
 
-| I want to… | Go to |
-|:-----------|:------|
-| Install kura and run my first compile | [Getting Started](Getting-Started) |
+| Goal | Page |
+|:-----|:-----|
+| Install kura and run a first compile | [Getting Started](Getting-Started) |
 | Understand Kyto vs kura | [Kyto vs kura](Kyto-vs-Kura) |
 | Learn the full language | [Language Tutorial](Language-Tutorial) |
 | Configure a real project | [Configuration Guide](Configuration-Guide) |
 | Use every CLI command | [Kura CLI Reference](Kura-CLI-Reference) |
 | Download binaries or Docker | [Installing Kyto](Installing-Kyto) |
-| Read cool facts about the project | [Interesting Facts](Interesting-Facts) |
+| Project highlights and technical facts | [Interesting Facts](Interesting-Facts) |
 | See how the compiler is built | [Architecture](Architecture) |
 | Encrypt secrets locally | [Encryption & Privacy](Encryption-and-Privacy) |
 | Get quick answers | [FAQ](FAQ) |
@@ -35,7 +35,7 @@ Most teams duplicate the same data in five places:
 - Bash for deploy exports
 - A secrets file nobody wants in git
 
-**Kyto fixes that.** You edit `.kyto.config` (or write `.kyto` for advanced logic), run `kura compile`, and get every artifact from one source of truth — **on your machine**, with **no cloud**, **no telemetry**.
+**Kyto fixes that.** Teams edit `.kyto.config` (or `.kyto` for advanced logic), run `kura compile`, and get every artifact from one source of truth — **locally**, with **no cloud**, **no telemetry**.
 
 ---
 

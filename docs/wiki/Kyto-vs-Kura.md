@@ -9,7 +9,12 @@ People often confuse the two names. Here is the mental model.
 | | |
 |:--|:--|
 | **Kyto** | The **programming language** and project format (`.kyto`, `.kyto.config`, `kyto.toml`) |
-| **kura** | The **compiler** — the program you run in the terminal |
+| **kura** | The **compiler** — the CLI program run in the terminal |
+
+Typical phrasing:
+
+- *"This project is written in Kyto."*
+- *"Compile it with kura."*
 
 ---
 
@@ -21,8 +26,6 @@ People often confuse the two names. Here is the mental model.
 | Go | Go | `go` |
 | C | C | `gcc` / `clang` |
 | **Kyto** | **Kyto** | **`kura`** |
-
-You say: *"I wrote this in Kyto"* and *"I compiled it with kura."*
 
 ---
 
@@ -36,7 +39,7 @@ Kyto project/
   generated/          ← output from kura compile
 ```
 
-The **binary** on your PATH is named `kura` (after `kura install`).
+The **kura** binary on `PATH` is installed via `kura install`.
 
 Release archives are named `kyto-*-linux-x86_64.zip` because they are **Kyto project releases** that ship the **kura** compiler inside.
 
