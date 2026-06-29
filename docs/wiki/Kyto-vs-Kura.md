@@ -78,3 +78,5 @@ There is no `kyto` binary today. The project/repo name is `kyto`; the tool name 
 | [GitHub Packages](https://github.com/voidmute/kyto/pkgs/container/kyto) | Docker image with `kura` entrypoint | `ghcr.io/voidmute/kyto` |
 
 Both deliver the **kura** compiler for **Kyto** projects.
+
+See [Naming & Origin](Naming-and-Origin) for the story behind the names.

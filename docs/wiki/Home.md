@@ -14,6 +14,8 @@
 |:-----|:-----|
 | Install kura and run a first compile | [Getting Started](Getting-Started) |
 | Understand Kyto vs kura | [Kyto vs kura](Kyto-vs-Kura) |
+| Why the names Kyto and kura | [Naming & Origin](Naming-and-Origin) |
+| All kura commands (cheat sheet) | [kura commands](Kura-Commands) |
 | Learn the full language | [Language Tutorial](Language-Tutorial) |
 | Configure a real project | [Configuration Guide](Configuration-Guide) |
 | Use every CLI command | [Kura CLI Reference](Kura-CLI-Reference) |

@@ -2,6 +2,22 @@
 
 Every command in the **kura** compiler (Kyto's CLI).
 
+**Quick list:** [kura commands](Kura-Commands) — cheat sheet with all subcommands in one table.
+
+---
+
+## All commands
+
+| Command | Description |
+|:--------|:------------|
+| `kura --version` | Print version string |
+| `kura init` | Scaffold a new Kyto project |
+| `kura compile` | Compile and write emit artifacts |
+| `kura check` | Parse/evaluate without writing files |
+| `kura install` | Install binary to `~/.local/bin` |
+| `kura encrypt <in> -o <out>` | Encrypt a file (ChaCha20-Poly1305) |
+| `kura decrypt <in> -o <out>` | Decrypt a file |
+
 ---
 
 ## Global

@@ -8,10 +8,12 @@
 - [Getting Started](Getting-Started)
 - [Installing Kyto](Installing-Kyto)
 - [Kyto vs kura](Kyto-vs-Kura)
+- [Naming & Origin](Naming-and-Origin)
 
 **Learn**
 - [Language Tutorial](Language-Tutorial)
 - [Configuration Guide](Configuration-Guide)
+- [kura commands](Kura-Commands)
 - [Kura CLI Reference](Kura-CLI-Reference)
 
 **Deep dive**
