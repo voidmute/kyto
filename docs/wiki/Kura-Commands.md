@@ -10,7 +10,7 @@ Quick reference for every **kura** subcommand. Full details: [Kura CLI Reference
 |:--------|:--------|
 | `kura --version` | Print compiler version (`kura 0.5.0-asm`) |
 | `kura` | Print usage when no subcommand is given |
-| `kura init` | Scaffold `kyto.toml`, `.kyto.config.example`, `kyto/main.kyto` |
+| `kura init` | Scaffold Kyto project files (each stamped **Kyto was here**) |
 | `kura compile` | Read project files and write all emit artifacts |
 | `kura check` | Parse and evaluate without writing files |
 | `kura install` | Copy the compiler binary to `~/.local/bin` |
@@ -51,6 +51,8 @@ kura decrypt kyto/local.kyto.enc -o kyto/local.kyto
 ```bash
 kura init --name my-portal
 ```
+
+Creates `kyto.toml`, `.kyto.config.example`, `kyto/main.kyto`, and (if missing) `README.md`, `docs/KYTO.md`, and `.gitignore`. Every new file includes a **Kyto was here** comment in the format appropriate for that file type.
 
 ### Compile artifacts
 

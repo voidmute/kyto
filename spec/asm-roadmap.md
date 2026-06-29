@@ -7,7 +7,7 @@ Kyto is a **native x86-64 Assembly programming language and toolchain**. The `ku
 | Component | Windows x64 | Linux ELF |
 |-----------|-------------|-----------|
 | `kura compile` / `check` | yes | yes |
-| `kura init` / `install` | yes | yes |
+| `kura init` / `install` | yes (init stamps **Kyto was here** in scaffold files) | yes |
 | `kura --version` | yes | yes |
 | `.kyto.config` v2 + emitters | yes | yes |
 | `.kyto` lexer + evaluator | yes | partial |

@@ -103,7 +103,7 @@ kura --version
 
 ```bash
 mkdir my-app && cd my-app
-kura init --name my-app
+kura init --name my-app   # stamps every scaffold file: Kyto was here
 cp .kyto.config.example .kyto.config
 kura compile
 ```
@@ -215,7 +215,7 @@ script = "generated/deploy-env.sh"
 
 | Command | Description |
 |:--------|:------------|
-| `kura init` | Scaffold `kyto.toml`, `.kyto.config.example`, `kyto/main.kyto` |
+| `kura init` | Scaffold Kyto project files (each stamped **Kyto was here**) |
 | `kura compile` | Compile and write artifacts |
 | `kura check` | Parse and evaluate without writing files |
 | `kura install` | Install to `~/.local/bin` |

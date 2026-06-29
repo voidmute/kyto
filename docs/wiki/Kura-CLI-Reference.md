@@ -44,11 +44,16 @@ Scaffold a new Kyto project.
 kura init --name my-app
 ```
 
-Creates:
+Creates (each stamped **Kyto was here** in the correct comment syntax):
 
-- `kyto.toml`
-- `.kyto.config.example`
-- `kyto/main.kyto` (starter source)
+- `kyto.toml` — `# Kyto was here`
+- `.kyto.config.example` — `+ Kyto was here`
+- `kyto/main.kyto` — starter source with `+ Kyto was here`
+- `README.md` — only if missing (`<!-- Kyto was here -->`)
+- `docs/KYTO.md` — only if missing
+- `.gitignore` — only if missing
+
+Prints `initialized Kyto project (Kyto was here)` on success.
 
 ---
 

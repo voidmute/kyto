@@ -120,7 +120,7 @@ DATABASE_URL postgresql://localhost/app
 
 | Команда | Описание |
 |:--------|:---------|
-| `kura init` | Создать проект |
+| `kura init` | Создать проект (в каждом файле: **Kyto was here**) |
 | `kura compile` | Скомпилировать |
 | `kura check` | Проверить без записи |
 | `kura install` | Установить в `~/.local/bin` |

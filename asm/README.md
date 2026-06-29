@@ -38,7 +38,7 @@ Output: `bin/kura-asm`
 |:--------|:------------|
 | `kura compile` | Read `.kyto.config` + `kyto.toml`, write env/users/deploy artifacts |
 | `kura check` | Parse and evaluate without writing files |
-| `kura init` | Scaffold project files |
+| `kura init` | Scaffold project files (stamped **Kyto was here**) |
 | `kura install` | Install to `~/.local/bin` |
 | `kura encrypt` / `decrypt` | ChaCha20-Poly1305 (RFC 8439) |
 | `kura --version` | Print `kura 0.5.0-asm` |

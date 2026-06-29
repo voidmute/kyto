@@ -153,7 +153,24 @@ See [Architecture](Architecture) and the [asm roadmap](https://github.com/voidmu
 
 ---
 
-## 15. By the numbers
+## 15. “Kyto was here”
+
+When you run `kura init`, every scaffolded file is stamped with a **Kyto was here** comment — the compiler’s way of marking a fresh Kyto project:
+
+| File | Stamp |
+|:-----|:------|
+| `kyto.toml` | `# Kyto was here` |
+| `.kyto.config.example` | `+ Kyto was here` |
+| `kyto/main.kyto` | `+ Kyto was here` |
+| `README.md` (if new) | `<!-- Kyto was here -->` |
+| `docs/KYTO.md` (if new) | `<!-- Kyto was here -->` |
+| `.gitignore` (if new) | `# Kyto was here` |
+
+Existing `README.md` or `.gitignore` files are left untouched so `kura init` never overwrites your work. The success message prints **initialized Kyto project (Kyto was here)**.
+
+---
+
+## 16. By the numbers
 
 | Fact | Detail |
 |:-----|:-------|

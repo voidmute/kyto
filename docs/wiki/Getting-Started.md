@@ -65,11 +65,16 @@ After `kura init`, the project contains:
 
 ```
 my-portal/
-  kyto.toml
-  .kyto.config.example
-  .kyto.config          ← create from `.kyto.config.example`
-  kyto/main.kyto        ← optional advanced layer
+  kyto.toml                 ← # Kyto was here
+  .kyto.config.example      ← + Kyto was here
+  kyto/main.kyto            ← + Kyto was here (optional advanced layer)
+  README.md                 ← <!-- Kyto was here --> (if file did not exist)
+  docs/KYTO.md              ← project Kyto notes (if new)
+  .gitignore                ← # Kyto was here (if new)
+  .kyto.config              ← create from `.kyto.config.example`
 ```
+
+Every scaffolded file is stamped **Kyto was here** so it is obvious the project was bootstrapped with kura.
 
 ---
 

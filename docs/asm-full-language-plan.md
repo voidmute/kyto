@@ -8,7 +8,7 @@ Goal: every `kura` command and the full `.kyto` language in NASM x86-64.
 |------|--------|
 | `kura compile` / `check` | ASM — config-only + full `.kyto` eval path |
 | `kura install` | ASM — Windows + Linux |
-| `kura init` | ASM — writes `kyto.toml` + `.kyto.config.example` |
+| `kura init` | ASM — scaffolds project files (each stamped **Kyto was here**) |
 | `kura --version` | ASM — `kura 0.5.0-asm` |
 | `.kyto.config` v2 parser + emitters | ASM — DOMAIN, USERS, ADMIN, env KV lines |
 | `kyto.toml` paths + `config_only` + `entry` | ASM scraper |
